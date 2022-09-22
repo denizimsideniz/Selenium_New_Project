@@ -4,55 +4,39 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
-
 public class Xpath {
-    /*
-    https://the-internet.herokuapp.com/add_remove_elements/ adresine gidin
-    2- Add Element butonuna basin
-    Delete butonu’nun gorunur oldugunu test edin
-    Delete tusuna basin
-    “Add/Remove Elements” yazisinin gorunur oldugunu test edin
-
-     */
     public static void main(String[] args) throws InterruptedException {
+        /*
+        https://the-internet.herokuapp.com/add_remove_elements/ adresine gidin
+        2- Add Element butonuna basin
+        Delete butonu’nun gorunur oldugunu test edin
+        Delete tusuna basin
+        “Add/Remove Elements” yazisinin gorunur oldugunu test edin
+         */
         System.setProperty("webdriver.chrome.driver","src/resources/drivers/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));// Gidilen sayfada 10 sn icinde calısmazsa kapanir
         //https://the-internet.herokuapp.com/add_remove_elements/ adresine gidin
-        driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
-        // 2- Add Element butonuna basin
+        driver.get("https://the-internet.herokuapp.com/add_remove_elements/ ");
+        //2- Add Element butonuna basin
+        driver.findElement(By.xpath("(//button[text()='Add Element'])[1]")).click(); //  driver.findElement(By.xpath("//*[text()='Add Element']")).click(); olarakda yapılabilir
         Thread.sleep(3000);
-        //driver.findElement(By.xpath("//*[@onclick='addElement()']")).click();
-        driver.findElement(By.xpath("//*[text()='Add Element']")).click(); // xpath'de text ile locate alma
-        /*
-        Locate alırken sadece text kullanıcaksak //*[text()='Add Element'] bu formatt kullanılır
-        Atribute kullanıcaksak //*[@onclick='addElement()'] bu format kullanılır
-         */
-
-        // Delete butonu’nun gorunur oldugunu test edin
-        WebElement deleteButton = driver.findElement(By.xpath("//*[@class='added-manually']"));
-        if(!deleteButton.isDisplayed()){
-            System.out.println("TEST PASSED");
-        }else System.out.println("TEST FAILED");
-        // Delete tusuna basin
-        Thread.sleep(3000);
-        deleteButton.click();
-        // “Add/Remove Elements” yazisinin gorunur oldugunu test edin
-        //WebElement addRemoveElement = driver.findElement(By.xpath("//h3"));
-        WebElement addRemoveElement = driver.findElement(By.xpath("//*[text()='Add/Remove Elements']"));
-        if(addRemoveElement.isDisplayed()){
-            System.out.println("TEST PASSED");
-        }else System.out.println("TEST FAILED");
-        //Sayfayı kapatınız
-        driver.close();
-        /*
-    1-https://the-internet.herokuapp.com/add_remove_elements/ adresine gidin
-    2- Add Element butonuna 10 kez basinız
-    3- 10 kez Add element butonuna basıldığını test ediniz
-    4 - Delete butonuna görünmeyene kadar basınız
-    5- Delete butonunun görünmediğini test ediniz
-    6- Sayfayı kapatınız
-     */
+        //Delete butonu’nun gorunur oldugunu test edin
+        WebElement deleteButonu = driver.findElement(By.xpath("//*[text()='Delete']")); // //button[normalize-space()='Delete'] şeklinde de yazılabilir.
+        if (deleteButonu.isDisplayed()){
+            System.out.println("Delete butonu PASSED");
+        }else System.out.println("Delete butonu FAILED");
+        // 4- Delete tusuna basin
+        deleteButonu.click();
+        //5- “Add/Remove Elements” yazisinin gorunur oldugunu test edin
+        WebElement addRemoveButonu = driver.findElement(By.xpath("//h3"));// //h3[normalize-space()='Add/Remove Elements'] şeklinde de yazılabilir
+        if (addRemoveButonu.isDisplayed()){
+            System.out.println("AddRemove yazisi PASSED");
+        }else System.out.println("AddRemove yazisi FAİLED");
+        //Sayfaları kapatın
+        driver.quit();
+        //   *--> tagname
+        //   . --> atributu
     }
 }
